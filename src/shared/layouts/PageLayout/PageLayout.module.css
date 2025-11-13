@@ -1,0 +1,9 @@
+.header {
+  padding: 1rem;
+}
+
+.main {
+  padding: 1rem;
+  border: 1px solid #000;
+  border-radius: 0.3rem;
+}

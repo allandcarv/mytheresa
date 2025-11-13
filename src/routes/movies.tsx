@@ -1,12 +1,12 @@
 // src/routes/movies.tsx
 import type { RouteObject } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import { Movies } from "../features/movies/pages/Movies";
-import { Movie } from "../features/movies/pages/Movie";
+import { Movies } from "../features/movies/pages/Movies/Movies";
+import { Movie } from "../features/movies/pages/Movie/Movie";
+import { PageLayout } from "../shared/layouts/PageLayout/PageLayout";
 
 const MoviesFeatureRoutes: RouteObject = {
   path: "movies",
-  element: <Outlet />,
+  element: <PageLayout />,
   children: [
     {
       index: true,
