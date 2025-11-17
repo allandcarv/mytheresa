@@ -2,13 +2,26 @@ import ReactDOMServer from "react-dom/server";
 import { App } from "./App";
 import { createMemoryRouter } from "react-router-dom";
 import { AppRoutes } from "./routes/root";
+import {
+  dehydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 
-export function render(url: string) {
+export async function render(url: string) {
+  const queryClient = new QueryClient();
+
   const serverRouter = createMemoryRouter(AppRoutes, {
     initialEntries: [url],
   });
 
-  const html = ReactDOMServer.renderToString(<App router={serverRouter} />);
+  const html = ReactDOMServer.renderToString(
+    <QueryClientProvider client={queryClient}>
+      <App router={serverRouter} />
+    </QueryClientProvider>
+  );
 
-  return { html };
+  const dehydratedState = dehydrate(queryClient);
+
+  return { html, dehydratedState };
 }

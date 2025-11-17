@@ -12,8 +12,22 @@ const DUMMY_DATA: CarouselItem[] = [
   { imageUrl: "#", title: "E" },
 ];
 
+async function getMoviesByGenre() {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${
+      import.meta.env.VITE_API_KEY
+    }&with_genres=${28}`
+  );
+  const data = await res.json();
+  return data.results;
+}
+
 export function Movies() {
   const context = usePageTitle();
+
+  getMoviesByGenre().then((movies) => {
+    console.log(movies);
+  });
 
   useEffect(() => {
     if (context?.setTitle) {

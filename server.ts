@@ -25,9 +25,15 @@ async function startServer() {
       template = await vite.transformIndexHtml(url, template);
 
       const { render } = await vite.ssrLoadModule("/src/entry-server.tsx");
-      const { html } = await render(url);
+      const { html, dehydratedState } = await render(url);
+      const dehydrated = JSON.stringify(dehydratedState);
 
-      const renderedHtml = template.replace(`<!--ssr-outlet-->`, html);
+      const renderedHtml = template
+        .replace(`<!--ssr-outlet-->`, html)
+        .replace(
+          "</body>",
+          `<script>window.__DEHYDRATED_STATE__ = ${dehydrated}</script></body>`
+        );
 
       res.status(200).set({ "Content-Type": "text/html" }).end(renderedHtml);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
